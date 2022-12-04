@@ -52,7 +52,7 @@ public class AgricultorController : ControllerBase
 
         try
         {
-            // TODO update usuario
+            // TODO update agricultor
             await context.SaveChangesAsync();
             return Ok(agricultor);
         }
