@@ -16,9 +16,9 @@ public class UsuarioController : ControllerBase
     [HttpGet("/{id}")]
     public async Task<IActionResult> GetByIdAsync([FromServices] AppDbContext context, Guid id)
     {
-        var todo = await context.Usuarios.AsNoTracking().FirstOrDefaultAsync(usuario => usuario.Id == id);
+        var usuario = await context.Usuarios.AsNoTracking().FirstOrDefaultAsync(usuario => usuario.Id == id);
 
-        return todo == null? NotFound(): Ok(todo);
+        return usuario == null? NotFound(): Ok(usuario);
     }
 
     [HttpPost]

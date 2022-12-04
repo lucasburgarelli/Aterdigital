@@ -17,9 +17,9 @@ public class AgricultorController : ControllerBase
     [HttpGet("/{id}")]
     public async Task<IActionResult> GetByIdAsync([FromServices] AppDbContext context, Guid id)
     {
-        var todo = await context.Usuarios.AsNoTracking().FirstOrDefaultAsync(usuario => usuario.Id == id);
+        var agricultor = await context.Agricultores.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
 
-        return todo == null ? NotFound() : Ok(todo);
+        return agricultor == null ? NotFound() : Ok(agricultor);
     }
 
     [HttpPost]
@@ -27,13 +27,13 @@ public class AgricultorController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var usuario = new Usuario();
+        var agricultor = new Agricultor();
 
         try
         {
-            await context.Usuarios.AddAsync(usuario);
+            await context.Agricultores.AddAsync(agricultor);
             await context.SaveChangesAsync();
-            return Created($"usuario/{usuario.Id}", usuario);
+            return Created($"agricultor/{agricultor.Id}", agricultor);
         }
         catch
         {
@@ -46,15 +46,15 @@ public class AgricultorController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var usuario = await context.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
+        var agricultor = await context.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
 
-        if (usuario == null) return NotFound();
+        if (agricultor == null) return NotFound();
 
         try
         {
             // TODO update usuario
             await context.SaveChangesAsync();
-            return Ok(usuario);
+            return Ok(agricultor);
         }
         catch
         {
@@ -65,11 +65,11 @@ public class AgricultorController : ControllerBase
     [HttpDelete("/{id}")]
     public async Task<IActionResult> DeleteAsync([FromServices] AppDbContext context, Guid id)
     {
-        var usuario = await context.Usuarios.FirstOrDefaultAsync(u => u.Id == id);
+        var agricultor = await context.Agricultores.FirstOrDefaultAsync(u => u.Id == id);
 
         try
         {
-            context.Usuarios.Remove(usuario);
+            context.Usuarios.Remove(agricultor);
             await context.SaveChangesAsync();
 
             return Ok();
