@@ -1,4 +1,5 @@
-﻿using Aterdigital.Usuarios;
+﻿using Aterdigital.Helpers;
+using Aterdigital.Usuarios;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,7 +29,7 @@ public class Agricultor : Usuario
         Ativo = model.Ativo;
         UsuarioTexto = model.UsuarioTexto;
         Cpf = model.Cpf;
-        Senha = model.Senha;
+        Senha = Cryptography.Encrypt(model.Senha);
         Email = model.Email;
         NumeroDoTelefone = model.NumeroDoTelefone;
         NumeroDoTelefone2 = model.NumeroDoTelefone2;

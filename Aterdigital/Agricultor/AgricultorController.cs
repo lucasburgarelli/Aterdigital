@@ -43,9 +43,9 @@ public class AgricultorController : ControllerBase
             await context.SaveChangesAsync();
             return Created($"agricultor/{agricultor.Id}", agricultor);
         }
-        catch
+        catch (Exception e)
         {
-            return BadRequest();
+            return BadRequest(e);
         }
     }
 
