@@ -14,6 +14,14 @@ public class AgricultorController : ControllerBase
         context = dbContext;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAllAsync([FromServices] AppDbContext context)
+    {
+        var agricultores = await context.Agricultores.AsNoTracking().ToListAsync();
+
+        return agricultores == null ? NotFound() : Ok(agricultores);
+    }
+
     [HttpGet("/{id}")]
     public async Task<IActionResult> GetByIdAsync([FromServices] AppDbContext context, Guid id)
     {
@@ -23,11 +31,11 @@ public class AgricultorController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostAsync([FromBody] Usuario model)
+    public async Task<IActionResult> PostAsync([FromBody] CreateAgricultorViewModel model)
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var agricultor = new Agricultor();
+        var agricultor = new Agricultor(model);
 
         try
         {
@@ -42,11 +50,11 @@ public class AgricultorController : ControllerBase
     }
 
     [HttpPut("/{id}")]
-    public async Task<IActionResult> PutAsync([FromServices] AppDbContext context, [FromBody] Usuario model, Guid id)
+    public async Task<IActionResult> PutAsync([FromServices] AppDbContext context, [FromBody] Agricultor model, Guid id)
     {
         if (!ModelState.IsValid) return BadRequest();
 
-        var agricultor = await context.Usuarios.FirstOrDefaultAsync(x => x.Id == id);
+        var agricultor = await context.Agricultores.FirstOrDefaultAsync(x => x.Id == id);
 
         if (agricultor == null) return NotFound();
 
@@ -69,7 +77,7 @@ public class AgricultorController : ControllerBase
 
         try
         {
-            context.Usuarios.Remove(agricultor);
+            context.Agricultores.Remove(agricultor);
             await context.SaveChangesAsync();
 
             return Ok();
